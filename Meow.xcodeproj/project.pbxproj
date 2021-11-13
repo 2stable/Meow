@@ -13,13 +13,13 @@
 		84029DBD27395A4B00689EEE /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 84029DBC27395A4B00689EEE /* RxCocoa */; };
 		84029DBF27395A4B00689EEE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 84029DBE27395A4B00689EEE /* RxSwift */; };
 		84029DC127395AE900689EEE /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84029DC027395AE900689EEE /* WebView.swift */; };
+		84061BED273FEB7300E9659E /* Popover in Frameworks */ = {isa = PBXBuildFile; productRef = 84061BEC273FEB7300E9659E /* Popover */; };
 		845854AF273D95F5000336B6 /* Watcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845854AE273D95F5000336B6 /* Watcher.swift */; };
 		8483FF1F273E79AE00172244 /* Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483FF1E273E79AE00172244 /* Changes.swift */; };
 		848766E0273D6D3000FA4C9B /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 848766DF273D6D3000FA4C9B /* KeychainAccess */; };
 		848766E2273D6D5500FA4C9B /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848766E1273D6D5500FA4C9B /* SecureStorage.swift */; };
 		848766E4273D793300FA4C9B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848766E3273D793300FA4C9B /* Session.swift */; };
 		848766E6273D90E000FA4C9B /* meow.wav in Resources */ = {isa = PBXBuildFile; fileRef = 848766E5273D90E000FA4C9B /* meow.wav */; };
-		84CD7AC1273E9923004D69D5 /* Popover in Frameworks */ = {isa = PBXBuildFile; productRef = 84CD7AC0273E9923004D69D5 /* Popover */; };
 		84F06C0B273D53FA0001EEC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84F06C0A273D53FA0001EEC7 /* Main.storyboard */; };
 		84F06C0E273D64490001EEC7 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F06C0C273D64490001EEC7 /* LoginController.swift */; };
 		84F06C0F273D64490001EEC7 /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F06C0D273D64490001EEC7 /* LoginController.xib */; };
@@ -60,7 +60,7 @@
 			files = (
 				848766E0273D6D3000FA4C9B /* KeychainAccess in Frameworks */,
 				84029DBF27395A4B00689EEE /* RxSwift in Frameworks */,
-				84CD7AC1273E9923004D69D5 /* Popover in Frameworks */,
+				84061BED273FEB7300E9659E /* Popover in Frameworks */,
 				84029DBD27395A4B00689EEE /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -155,7 +155,7 @@
 				84029DBC27395A4B00689EEE /* RxCocoa */,
 				84029DBE27395A4B00689EEE /* RxSwift */,
 				848766DF273D6D3000FA4C9B /* KeychainAccess */,
-				84CD7AC0273E9923004D69D5 /* Popover */,
+				84061BEC273FEB7300E9659E /* Popover */,
 			);
 			productName = Meow;
 			productReference = 84029DA72739578500689EEE /* Meow.app */;
@@ -187,7 +187,7 @@
 			packageReferences = (
 				84686F112623500F00D078CF /* XCRemoteSwiftPackageReference "RxSwift" */,
 				848766DE273D6D3000FA4C9B /* XCRemoteSwiftPackageReference "KeychainAccess" */,
-				84CD7ABF273E9923004D69D5 /* XCRemoteSwiftPackageReference "Popover" */,
+				84061BEB273FEB7300E9659E /* XCRemoteSwiftPackageReference "Popover" */,
 			);
 			productRefGroup = 84686EDF262340FB00D078CF /* Products */;
 			projectDirPath = "";
@@ -467,6 +467,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		84061BEB273FEB7300E9659E /* XCRemoteSwiftPackageReference "Popover" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/c128128/Popover.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		84686F112623500F00D078CF /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
@@ -483,14 +491,6 @@
 				minimumVersion = 4.0.0;
 			};
 		};
-		84CD7ABF273E9923004D69D5 /* XCRemoteSwiftPackageReference "Popover" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:c128128/Popover.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -504,15 +504,15 @@
 			package = 84686F112623500F00D078CF /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
 		};
+		84061BEC273FEB7300E9659E /* Popover */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84061BEB273FEB7300E9659E /* XCRemoteSwiftPackageReference "Popover" */;
+			productName = Popover;
+		};
 		848766DF273D6D3000FA4C9B /* KeychainAccess */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 848766DE273D6D3000FA4C9B /* XCRemoteSwiftPackageReference "KeychainAccess" */;
 			productName = KeychainAccess;
-		};
-		84CD7AC0273E9923004D69D5 /* Popover */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 84CD7ABF273E9923004D69D5 /* XCRemoteSwiftPackageReference "Popover" */;
-			productName = Popover;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -12,7 +12,7 @@
       },
       {
         "package": "Popover",
-        "repositoryURL": "git@github.com:c128128/Popover.git",
+        "repositoryURL": "https://github.com/c128128/Popover.git",
         "state": {
           "branch": "master",
           "revision": "10c0fb878ef83e69ce6a43f8d691a5a1804805b3",
