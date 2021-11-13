@@ -20,3 +20,9 @@ Big thanks to:
 - [RxSwift](https://github.com/ReactiveX/RxSwift)
 - [KeychainAccess](https://github.com/kishikawakatsumi/KeychainAccess)
 - [Popover](https://github.com/iSapozhnik/Popover)
+
+## Notice of Non-Affiliation and Disclaimer
+
+We are not affiliated, associated, authorized, endorsed by, or in any way officially connected with the RevenueCat, or any of its subsidiaries or its affiliates. The official RevenueCat website can be found at https://www.revenuecat.com
+
+The names RevenueCat as well as related names, marks, emblems and images are registered trademarks of their respective owners.
