@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://meow.2stable.com/">
-    <img src="https://user-images.githubusercontent.com/71176569/141645226-502cc1d7-06a1-49e7-b1f2-fa945f87875f.png" alt="Meow logo" width="200" height="200">
+    <img src="https://user-images.githubusercontent.com/71176569/141645226-502cc1d7-06a1-49e7-b1f2-fa945f87875f.png" alt="Meow logo" width="160" height="160">
   </a>
 </p>
 
