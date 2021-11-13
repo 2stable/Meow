@@ -1,0 +1,53 @@
+default_platform(:mac)
+
+before_each do |lane, options|
+  skip_docs
+end
+ 
+desc "Build"
+lane :release do
+  version = increment_version_number(version_number: UI.input("New release version (semver): "))
+  increment_build_number(build_number: number_of_commits)
+
+  build_app(
+    project: "Meow.xcodeproj",
+    configuration: "Release",
+    scheme: "Meow",
+    clean: true,
+    output_directory: ".build",
+    output_name: "Meow.app"
+  )
+
+  sh("codesign --verbose --force --sign \"Developer ID Application: UNSTABLE, SL (GU5DN6BL3Y)\" --timestamp --options runtime ../.build/Meow.app")
+
+  notarize(
+    package: ".build/Meow.app",
+    bundle_id: "com.2stable.meow.release",
+    use_notarytool: false,
+    verbose: true
+  )
+
+  changelog = changelog_from_git_commits(
+    merge_commit_filtering: "exclude_merges"
+  )
+
+  sh("git commit -am 'Release #{version}'")
+
+  add_git_tag(tag: version, force: true)
+  push_to_git_remote
+
+  zip(
+    path: ".build/Meow.app",
+    output_path: ".build/Meow.zip"
+  )
+
+  set_github_release(
+    repository_name: "2stable/Meow",
+    api_token: ENV["GITHUB_TOKEN"],
+    name: version,
+    tag_name: version,
+    description: changelog,
+    commitish: "master",
+    upload_assets: [".build/Meow.zip"]
+  )
+end

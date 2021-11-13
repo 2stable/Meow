@@ -1,0 +1,188 @@
+excluded:
+  - Pods
+  - Tests
+  - DerivedData
+  - fastlane
+  - Proto/swift/*
+  - Packages/*
+
+disabled_rules:
+  - identifier_name
+  - trailing_whitespace
+  - type_name
+  - empty_enum_arguments
+  - unused_enumerated
+  - inclusive_language
+
+opt_in_rules:
+  - switch_case_on_newline
+  - closure_spacing
+  - closure_end_indentation
+  - file_header
+  - number_separator
+  - operator_usage_whitespace
+  - redundant_nil_coalescing
+  - conditional_returns_on_newline
+  - discouraged_optional_boolean
+  - empty_count
+  - empty_string
+  - literal_expression_end_indentation
+  - force_unwrapping
+  - private_outlet
+  - private_action
+
+function_body_length:
+  warning: 200
+  error: 1000
+
+type_body_length:
+  warning: 500
+
+large_tuple:
+  warning: 3
+  error: 10
+
+line_length:
+  warning: 300
+  error: 1000
+  ignores_urls: true
+  ignores_function_declarations: true
+  ignores_comments: true
+
+number_separator:
+  minimum_length: 0
+
+cyclomatic_complexity:
+  warning: 30
+  error: 1000
+  ignores_case_statements: false
+
+file_length:
+  warning: 1000
+  error: 10000000
+
+nesting:
+  type_level:
+    warning: 7
+  
+comma: warning
+force_try: warning
+force_cast: warning
+empty_count: warning
+
+switch_case_alignment:
+  indented_cases: true
+
+custom_rules:
+  no_empty_header:
+    regex: '^\s*\n+import'
+    message: "There should NOT be empty lines in file header"
+    severity: warning
+
+  no_empty_first_line:
+    regex: '\{\s*\n\s*\n'
+    message: "There should NOT be an empty line after a declaration"
+    severity: warning
+
+  bracket:
+    regex: '(\}\s*\n\s*\n\}|\{\s*\n\s*\n\s*\{)'
+    message: "No empty line between two open or close brackets."
+    severity: warning
+
+  empty_brackets:
+    regex: '(\{\s{1,}\})'
+    message: "Empty brackets must not have white space, use {} instead."
+    severity: warning
+
+  # From https://github.com/Twigz/Game
+  force_https:
+    name: "Force HTTPS over HTTP"
+    regex: "((?i)http(?!s))"
+    match_kinds: string
+    message: "HTTPS should be favored over HTTP"
+    severity: warning
+
+  # From https://github.com/onelittlefish/ObjectiveSet
+  trailing_whitespace_permissive:
+    name: Trailing Whitespace (excluding whitespace-only lines)
+    # This will only catch some trailing whitespace due to swiftlint's custom regex
+    # implementation and how it filters for match_kinds.
+    # This alternative regex will catch more (but still not all) cases:
+    # "\S+[\S\t\f\p{Z}]+[\t\f\p{Z}]+\n" but it is much less performant.
+    # Examples that won't be caught:
+    # closing brace by itself followed by space (not caught by either regex),
+    # func declaration followed by space after the opening brace (would be caught by
+    # less performant regex)
+    regex: "\\S+[\t\f\\p{Z}]+\n"
+    message: "Lines should not have trailing whitespace."
+
+  # From https://github.com/brandenr/swiftlintconfig
+  comments_space:
+    name: "Space After Comment"
+    regex: "(^ *//\\w+)"
+    message: "There should be a space after //"
+    severity: warning
+
+  comments_capitalized_ignore_possible_code:
+    name: "Capitalize First Word In Comment"
+    regex: "(^ +// +(?!swiftlint)[a-z]+)"
+    message: "The first word of a comment should be capitalized"
+    severity: warning
+
+  comments_capitalized_find_possible_code:
+    name: "Catch Commented Out Code"
+    regex: "(^ *// +(?!swiftlint)[a-z]+)"
+    message: "The first word of a comment should be capitalized"
+    severity: warning
+
+  empty_line_after_guard:
+    name: "Empty Line After Guard"
+    regex: "(^ *guard[ a-zA-Z0-9=?.\\(\\),><!]*\\{[ a-zA-Z0-9=?.\\(\\),><!]*\\}\n *(?!(?:return|guard))\\S+)"
+    message: "There should be an empty line after a guard"
+    severity: warning
+
+  empty_line_after_super:
+    name: "Empty Line After Super"
+    regex: "(^ *super\\.[ a-zA-Z0-9=?.\\(\\)\\{\\}:,><!]*\n *(?!(?:\\}|return))\\S+)"
+    message: "There should be an empty line after super"
+    severity: warning
+
+  multiple_empty_lines:
+    name: "Multiple Empty Lines"
+    regex: "((?:\\s*\n){3,})"
+    message: "There are too many line breaks"
+    severity: warning
+    
+  unnecessary_type:
+    name: "Unnecessary Type"
+    regex: "[ a-zA-Z0-9]*(?:let|var) [ a-zA-Z0-9]*: ([a-zA-Z0-9]*)[\\? ]*= \\1"
+    message: "Type Definition Not Needed"
+    severity: warning
+
+  declaration_attributes_on_newline:
+    regex: '(@(discardableResults|inline[ \t]*\(\S*\)|available[ \t]*(\S*\)))[^\r\n]+)'
+    message: "Declaration attributes must be on their own line."
+    severity: warning
+
+  access_control_on_same_line:
+    regex: '(open|public|private|fileprivate|internal)[ \t]*[\r\n]'
+    message: "Access control modifiers must be on the same line as the type declaration."
+    severity: warning
+
+  delegate:
+    name: "Delegate"
+    regex: '(?<!weak\s)var\s\w*(D|d)elegate\w*:'
+    message: "Please use `weak` for `delegate`. "
+    severity: warning
+
+  forbided_class_suffix:
+    name: "UIViewController subclass ends with ViewController suffix"
+    regex: "class ([a-z,A-Z])*ViewController:(\\s)*UIViewController"
+    message: "Remove the ViewController suffix from UIViewController subclass"
+    severity: warning
+
+  wrong_class_suffix:
+    name: "UIViewController subclass misses Controller suffix"
+    regex: "class ([a-z,A-Z])*(?<!Controller):(\\s)*UIViewController"
+    message: "UIViewController subclass should end with 'Controller'"
+    severity: warning

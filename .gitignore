@@ -1,0 +1,9 @@
+.DS_Store
+xcuserdata
+Pods
+DerivedData
+.swiftpm
+.build
+fastlane/report.xml
+fastlane/build/*
+fastlane/.env
