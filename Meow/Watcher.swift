@@ -34,9 +34,9 @@ final class Watcher {
         
         self.op = Disposables.create {}
         
-        _ = Coordinator.shared.request()
-            .subscribe(onSuccess: { [weak self] response in
-                self?._response.onNext(response)
+        _ = Maybe.zip(Coordinator.shared.transactions(), Coordinator.shared.overview())
+            .subscribe(onSuccess: { [weak self] transactions, overview in
+                self?._response.onNext(.init(transactions: Set(transactions.transactions), overview: overview))
             }, onDisposed: { [weak self] in
                 self?.op?.dispose()
             })

@@ -95,14 +95,22 @@ final class Coordinator {
         self._state.accept(.loggedOut)
     }
     
-    func request() -> Maybe<Endpoint.Response> {
+    func overview() -> Maybe<Endpoint.Overview> {
+        return self.request(url: "https://api.revenuecat.com/v1/developers/me/overview")
+    }
+    
+    func transactions() -> Maybe<Endpoint.Transactions> {
+        return self.request(url: "https://api.revenuecat.com/v1/developers/me/transactions")
+    }
+    
+    private func request<T: Codable>(url: String) -> Maybe<T> {
         guard let token = self.storage.token() else {
             return .empty()
         }
     
         // If someone at RevenueCat has a better idea or there is another API that we can use
         // Please feel free to contact us, or open a PR
-        guard !token.isExpired(), let url = URL(string: "https://api.revenuecat.com/v1/developers/me/overview") else {
+        guard !token.isExpired(), let url = URL(string: url) else {
             self.logout()
             
             return .empty()

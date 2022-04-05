@@ -21,7 +21,7 @@ final class StatsController: DismisableController {
         self.changes.changes
             .observe(on: MainScheduler.instance)
             .subscribe(with: self, onNext: { _self, value in
-                _self._activeSubscribers.stringValue = String(value.current.active_subscribers_count)
+                _self._activeSubscribers.stringValue = String(value.current.overview.active_subscribers_count)
                 
                 _self.play(value.play)
             })

@@ -24,14 +24,8 @@ final class Changes {
                     guard let previous = self.previous else {
                         return 0
                     }
-                    
-                    let diff = current.active_subscribers_count - previous.active_subscribers_count
-                    
-                    guard diff > 0 else {
-                        return 0
-                    }
-                    
-                    return UInt(diff)
+                     
+                    return UInt(current.transactions.subtracting(previous.transactions).count)
                 }()
 
                 self.previous = current
