@@ -103,6 +103,10 @@ final class Coordinator {
         return self.request(url: "https://api.revenuecat.com/v1/developers/me/transactions")
     }
     
+    func projects() -> Maybe<[Endpoint.Project]> {
+        return self.request(url: "https://api.revenuecat.com/internal/v1/developers/me/projects")
+    }
+    
     private func request<T: Codable>(url: String) -> Maybe<T> {
         guard let token = self.storage.token() else {
             return .empty()

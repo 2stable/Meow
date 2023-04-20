@@ -27,4 +27,9 @@ enum Endpoint {
         let transactions: Set<Endpoint.Transaction>
         let overview: Endpoint.Overview
     }
+    
+    struct Project: Codable {
+        let name: String
+        let id: String
+    }
 }
