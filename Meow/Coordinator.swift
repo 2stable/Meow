@@ -95,12 +95,26 @@ final class Coordinator {
         self._state.accept(.loggedOut)
     }
     
-    func overview() -> Maybe<Endpoint.Overview> {
-        return self.request(url: "https://api.revenuecat.com/v1/developers/me/overview")
+    func overview(projects: [Endpoint.Project] = []) -> Maybe<Endpoint.Overview> {
+        var components = URLComponents(string: "https://api.revenuecat.com/v1/developers/me/overview")
+        
+        if !projects.isEmpty {
+            components?.queryItems = [.init(name: "app_uuid", value: projects.map { $0.id }.joined(separator: ","))]
+        }
+        
+        // swiftlint:disable:next force_unwrapping
+        return self.request(url: components!.url!.absoluteString)
     }
     
-    func transactions() -> Maybe<Endpoint.Transactions> {
-        return self.request(url: "https://api.revenuecat.com/v1/developers/me/transactions")
+    func transactions(projects: [Endpoint.Project] = []) -> Maybe<Endpoint.Transactions> {
+        var components = URLComponents(string: "https://api.revenuecat.com/v1/developers/me/transactions")
+        
+        if !projects.isEmpty {
+            components?.queryItems = [.init(name: "app_uuid", value: projects.map { $0.id }.joined(separator: ","))]
+        }
+        
+        // swiftlint:disable:next force_unwrapping
+        return self.request(url: components!.url!.absoluteString)
     }
     
     func projects() -> Maybe<[Endpoint.Project]> {
