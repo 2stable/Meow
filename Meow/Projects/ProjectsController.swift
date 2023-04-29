@@ -98,17 +98,21 @@ struct ContentView: View {
                     Text("Loading...")
                 
                 case .content(let projects):
-                    ScrollView {
-                        LazyVStack(alignment: .leading) {
-                            ForEach(projects) { project in
-                                Row(item: project)
-                                    .contentShape(Rectangle())
-                                    .onTapGesture {
-                                        self.projectsState.clicked(project: project)
-                                    }
+                    VStack {
+                        Text("Select projects:")
+                            .padding(.top)
+                        ScrollView {
+                            LazyVStack(alignment: .leading) {
+                                ForEach(projects) { project in
+                                    Row(item: project)
+                                        .contentShape(Rectangle())
+                                        .onTapGesture {
+                                            self.projectsState.clicked(project: project)
+                                        }
+                                }
                             }
+                            .padding()
                         }
-                        .padding()
                     }
                     .padding(5)
                 
