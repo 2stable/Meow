@@ -21,6 +21,7 @@
 		848766E4273D793300FA4C9B /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848766E3273D793300FA4C9B /* Session.swift */; };
 		848766E6273D90E000FA4C9B /* meow.wav in Resources */ = {isa = PBXBuildFile; fileRef = 848766E5273D90E000FA4C9B /* meow.wav */; };
 		84C695D229FD1D5B005D34A8 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C695D129FD1D5B005D34A8 /* Api.swift */; };
+		84C695D429FD278D005D34A8 /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C695D329FD278D005D34A8 /* Storage.swift */; };
 		84F06C0B273D53FA0001EEC7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84F06C0A273D53FA0001EEC7 /* Main.storyboard */; };
 		84F06C0E273D64490001EEC7 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F06C0C273D64490001EEC7 /* LoginController.swift */; };
 		84F06C0F273D64490001EEC7 /* LoginController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84F06C0D273D64490001EEC7 /* LoginController.xib */; };
@@ -45,6 +46,7 @@
 		848766E3273D793300FA4C9B /* Session.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		848766E5273D90E000FA4C9B /* meow.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = meow.wav; sourceTree = "<group>"; };
 		84C695D129FD1D5B005D34A8 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
+		84C695D329FD278D005D34A8 /* Storage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		84F06C0A273D53FA0001EEC7 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		84F06C0C273D64490001EEC7 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		84F06C0D273D64490001EEC7 /* LoginController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginController.xib; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				84F06C13273D66580001EEC7 /* Coordinator.swift */,
 				84F06C1A273E761D0001EEC7 /* Endpoint.swift */,
 				848766E1273D6D5500FA4C9B /* SecureStorage.swift */,
+				84C695D329FD278D005D34A8 /* Storage.swift */,
 				848766E3273D793300FA4C9B /* Session.swift */,
 				845854AE273D95F5000336B6 /* Watcher.swift */,
 				8483FF1E273E79AE00172244 /* Changes.swift */,
@@ -243,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84F06C14273D66580001EEC7 /* Coordinator.swift in Sources */,
+				84C695D429FD278D005D34A8 /* Storage.swift in Sources */,
 				84029DC127395AE900689EEE /* WebView.swift in Sources */,
 				848766E2273D6D5500FA4C9B /* SecureStorage.swift in Sources */,
 				84F06C17273D79310001EEC7 /* StatsController.swift in Sources */,
