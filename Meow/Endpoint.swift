@@ -29,6 +29,10 @@ enum Endpoint {
     }
     
     struct Project: Codable, Hashable {
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(self.id)
+        }
+        
         let name: String
         let id: String
     }
