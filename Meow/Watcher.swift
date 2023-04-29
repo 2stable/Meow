@@ -14,6 +14,12 @@ final class Watcher {
         return self._response
     }
     
+    private let storage: Storage
+    
+    init(storage: Storage) {
+        self.storage = storage
+    }
+    
     final func start() {
         self.bag = Observable<Int>.interval(.seconds(Self.INTERVAL), scheduler: self.scheduler)
             .startWith(0)
@@ -34,7 +40,7 @@ final class Watcher {
         
         self.op = Disposables.create {}
         
-        _ = Single.zip(Coordinator.shared.transactions(), Coordinator.shared.overview())
+        _ = Single.zip(Coordinator.shared.transactions(projects: self.storage.projects()), Coordinator.shared.overview(projects: self.storage.projects()))
             .subscribe(onSuccess: { [weak self] transactions, overview in
                 self?._response.onNext(.init(transactions: Set(transactions.transactions), overview: overview))
             }, onDisposed: { [weak self] in

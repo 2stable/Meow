@@ -2,12 +2,16 @@ import Foundation
 
 enum Endpoint {
     struct Overview: Codable {
-        let active_subscribers_count: Int
-        let active_trials_count: Int
-        let active_users_count: Int
-        let installs_count: Int
-        let mrr: Double
-        let revenue: Double
+        struct Metrics: Codable {
+            let id: String
+            let value: Double
+        }
+        
+        let metrics: [Metrics]
+        
+        func activeSubscriptions() -> Int {
+            return Int(self.metrics.first(where: { $0.id == "active_subscriptions" })?.value ?? 0)
+        }
     }
     
     struct Transaction: Codable, Hashable {

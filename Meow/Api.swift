@@ -44,7 +44,7 @@ struct Api {
     }
     
     func overview(projects: [Endpoint.Project] = []) -> Single<Endpoint.Overview> {
-        var components = URLComponents(string: "https://api.revenuecat.com/v1/developers/me/overview")
+        var components = URLComponents(string: "https://api.revenuecat.com/v1/developers/me/charts_v2/overview")
 
         if !projects.isEmpty {
             components?.queryItems = [.init(name: "app_uuid", value: projects.map { $0.id }.joined(separator: ","))]

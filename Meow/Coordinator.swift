@@ -45,7 +45,7 @@ final class Coordinator {
             .subscribe(onNext: { [unowned self] state in
                 switch state {
                     case .loggedIn:
-                        self.stats(content: StatsController())
+                        self.stats(content: StatsController(storage: self.storage))
                     
                     case .loggedOut:
                         self.login()
@@ -73,7 +73,7 @@ final class Coordinator {
                 .take(1)
                 .observe(on: MainScheduler.asyncInstance)
                 .subscribe(with: self, onNext: { `self`, _ in
-                    self.stats(content: StatsController())
+                    self.stats(content: StatsController(storage: self.storage))
                 })
         }
     }

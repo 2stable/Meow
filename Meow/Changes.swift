@@ -10,14 +10,16 @@ final class Changes {
     private let bag = DisposeBag()
     private var previous: Endpoint.Response?
     
-    private let watcher = Watcher()
+    private let watcher: Watcher
     
     private let _changes = ReplaySubject<Value>.create(bufferSize: 1)
     public var changes: Observable<Value> {
         return self._changes
     }
     
-    init() {
+    init(storage: Storage) {
+        self.watcher = Watcher(storage: storage)
+        
         self.watcher.response
             .map { [unowned self] current -> Value in
                 let play = { () -> UInt in

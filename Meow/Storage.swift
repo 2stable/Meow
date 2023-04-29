@@ -100,4 +100,8 @@ internal struct Storage {
                 return set
             }
     }
+    
+    func projects() -> [Endpoint.Project] {
+        return Array(self.get(type: Set<Endpoint.Project>.self, key: Self.PROJECTS_KEY) ?? .init())
+    }
 }
