@@ -3,6 +3,8 @@ import RxSwift
 import RxCocoa
 
 internal struct Storage {
+    private static let PROJECTS_KEY = "Projects"
+    
     private let suite: String
     private let defaults: UserDefaults
     
@@ -16,7 +18,7 @@ internal struct Storage {
         self.defaults = defaults
     }
     
-    func get<T>(type: T.Type, key: String) -> T? where T: Codable {
+    private func get<T>(type: T.Type, key: String) -> T? where T: Codable {
         guard let data = self.defaults.data(forKey: key) else {
             return nil
         }
@@ -24,7 +26,7 @@ internal struct Storage {
         return try? JSONDecoder().decode([T].self, from: data).first
     }
     
-    func set<T>(object: T, key: String) where T: Codable {
+    private func set<T>(object: T, key: String) where T: Codable {
         defer {
             self.defaults.synchronize()
         }
@@ -33,7 +35,7 @@ internal struct Storage {
         self.defaults.set(try! JSONEncoder().encode([object]), forKey: key)
     }
     
-    func delete(key: String) {
+    private func delete(key: String) {
         defer {
             self.defaults.synchronize()
         }
@@ -41,7 +43,7 @@ internal struct Storage {
         self.defaults.removeObject(forKey: key)
     }
     
-    func purge() {
+    private func purge() {
         defer {
             self.defaults.synchronize()
         }
@@ -49,7 +51,7 @@ internal struct Storage {
         self.defaults.removePersistentDomain(forName: self.suite)
     }
     
-    func observe<T>(key: String) -> Observable<T?> where T: Codable {
+    private func observe<T>(key: String) -> Observable<T?> where T: Codable {
         return self.defaults.rx.observe(Data.self, key)
             .map { (data: Data?) in
                 guard let data = data else {
@@ -57,6 +59,45 @@ internal struct Storage {
                 }
                 
                 return try? JSONDecoder().decode([T].self, from: data).first
+            }
+    }
+    
+    func add(project: Endpoint.Project) {
+        var current = { () -> Set<Endpoint.Project> in
+            guard let projects = self.get(type: Set<Endpoint.Project>.self, key: Self.PROJECTS_KEY) else {
+                return []
+            }
+            
+            return projects
+        }()
+        
+        current.insert(project)
+        
+        self.set(object: current, key: Self.PROJECTS_KEY)
+    }
+    
+    func remove(project: Endpoint.Project) {
+        var current = { () -> Set<Endpoint.Project> in
+            guard let projects = self.get(type: Set<Endpoint.Project>.self, key: Self.PROJECTS_KEY) else {
+                return []
+            }
+            
+            return projects
+        }()
+        
+        current.remove(project)
+        
+        self.set(object: current, key: Self.PROJECTS_KEY)
+    }
+    
+    func projects() -> Observable<Set<Endpoint.Project>> {
+        return self.observe(key: Self.PROJECTS_KEY)
+            .map { (projects: Set<Endpoint.Project>?) in
+                guard let set = projects else {
+                    return Set<Endpoint.Project>()
+                }
+                
+                return set
             }
     }
 }
