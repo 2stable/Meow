@@ -50,6 +50,13 @@ internal struct Storage {
     }
     
     func observe<T>(key: String) -> Observable<T?> where T: Codable {
-        return self.defaults.rx.observe(T.self, key)
+        return self.defaults.rx.observe(Data.self, key)
+            .map { (data: Data?) in
+                guard let data = data else {
+                    return nil
+                }
+                
+                return try? JSONDecoder().decode([T].self, from: data).first
+            }
     }
 }
