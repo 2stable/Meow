@@ -13,10 +13,6 @@ final class StatsController: DismisableController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        _ = Coordinator.shared.projects()
-            .debug("************PROJECTS*********************")
-            .subscribe()
         
 //        self.setUpChanges()
     }

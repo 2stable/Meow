@@ -20,15 +20,13 @@ final class Session {
     private lazy var _config: URLSessionConfiguration = {
         let config = URLSessionConfiguration.default
         
-        
-        config.connectionProxyDictionary = [AnyHashable: Any]()
-        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPEnable as String] = 1
-        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPProxy as String] = "127.0.0.1"
-        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPPort as String] = 8_888
-        config.connectionProxyDictionary?[kCFStreamPropertyHTTPSProxyHost as String] = "127.0.0.1"
-        config.connectionProxyDictionary?[kCFStreamPropertyHTTPSProxyPort as String] = 8_888
-        
-        
+//        config.connectionProxyDictionary = [AnyHashable: Any]()
+//        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPEnable as String] = 1
+//        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPProxy as String] = "127.0.0.1"
+//        config.connectionProxyDictionary?[kCFNetworkProxiesHTTPPort as String] = 8_888
+//        config.connectionProxyDictionary?[kCFStreamPropertyHTTPSProxyHost as String] = "127.0.0.1"
+//        config.connectionProxyDictionary?[kCFStreamPropertyHTTPSProxyPort as String] = 8_888
+
         config.requestCachePolicy = .reloadIgnoringLocalAndRemoteCacheData
 
         URLSession.rx.shouldLogRequest = { _ in

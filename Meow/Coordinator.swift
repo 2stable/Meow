@@ -43,7 +43,7 @@ final class Coordinator {
             .subscribe(onNext: { [unowned self] state in
                 switch state {
                     case .loggedIn:
-                        self.stats()
+                        self.stats(content: StatsController())
                     
                     case .loggedOut:
                         self.login()
@@ -52,11 +52,28 @@ final class Coordinator {
             .disposed(by: self.bag)
     }
     
-    private func stats() {
-        self.setContent(isTemplate: true, controller: StatsController(), menuItems: [
+    private func stats(content: NSViewController) {
+        self.setContent(isTemplate: true, controller: content, menuItems: [
+            .item(Popover.MenuItem(title: "Preferences", action: { self.preferences() })),
             .item(Popover.MenuItem(title: "Logout", action: { self.logout() })),
             .item(Popover.MenuItem(title: "Quit", action: { NSApp.terminate(nil) }))
         ])
+    }
+    
+    private func preferences() {
+        self.stats(content: ProjectsController())
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.popover.show()
+            
+            // swiftlint:disable:next force_unwrapping
+            _ = self.popover.window!.rx.methodInvoked(#selector(NSWindow.close))
+                .take(1)
+                .observe(on: MainScheduler.asyncInstance)
+                .subscribe(with: self, onNext: { `self`, _ in
+                    self.stats(content: StatsController())
+                })
+        }
     }
     
     private func login() {

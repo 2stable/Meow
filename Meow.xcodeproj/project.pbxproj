@@ -14,6 +14,8 @@
 		84029DBF27395A4B00689EEE /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 84029DBE27395A4B00689EEE /* RxSwift */; };
 		84029DC127395AE900689EEE /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84029DC027395AE900689EEE /* WebView.swift */; };
 		84061BED273FEB7300E9659E /* Popover in Frameworks */ = {isa = PBXBuildFile; productRef = 84061BEC273FEB7300E9659E /* Popover */; };
+		840F6ACF29FC3C310093F9BE /* ProjectsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840F6ACD29FC3C310093F9BE /* ProjectsController.xib */; };
+		840F6AD029FC3C310093F9BE /* ProjectsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F6ACE29FC3C310093F9BE /* ProjectsController.swift */; };
 		845854AF273D95F5000336B6 /* Watcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 845854AE273D95F5000336B6 /* Watcher.swift */; };
 		8483FF1F273E79AE00172244 /* Changes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8483FF1E273E79AE00172244 /* Changes.swift */; };
 		848766E0273D6D3000FA4C9B /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = 848766DF273D6D3000FA4C9B /* KeychainAccess */; };
@@ -38,6 +40,8 @@
 		84029DB62739585000689EEE /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		84029DB82739587000689EEE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84029DC027395AE900689EEE /* WebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		840F6ACD29FC3C310093F9BE /* ProjectsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectsController.xib; sourceTree = "<group>"; };
+		840F6ACE29FC3C310093F9BE /* ProjectsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectsController.swift; sourceTree = "<group>"; };
 		845854AE273D95F5000336B6 /* Watcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Watcher.swift; sourceTree = "<group>"; };
 		8483FF1E273E79AE00172244 /* Changes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Changes.swift; sourceTree = "<group>"; };
 		848766E1273D6D5500FA4C9B /* SecureStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
@@ -74,6 +78,7 @@
 				84029DBA2739594800689EEE /* Misc */,
 				84F06C10273D644C0001EEC7 /* Login */,
 				84F06C19273D79370001EEC7 /* Stats */,
+				840F6ACC29FC3C0E0093F9BE /* Projects */,
 				84029DB62739585000689EEE /* main.swift */,
 				84029DA92739578500689EEE /* AppDelegate.swift */,
 				84F06C11273D65910001EEC7 /* DismisableController.swift */,
@@ -97,6 +102,15 @@
 				84029DB22739578600689EEE /* Meow.entitlements */,
 			);
 			path = Misc;
+			sourceTree = "<group>";
+		};
+		840F6ACC29FC3C0E0093F9BE /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				840F6ACE29FC3C310093F9BE /* ProjectsController.swift */,
+				840F6ACD29FC3C310093F9BE /* ProjectsController.xib */,
+			);
+			path = Projects;
 			sourceTree = "<group>";
 		};
 		84686ED5262340FB00D078CF = {
@@ -204,6 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				848766E6273D90E000FA4C9B /* meow.wav in Resources */,
+				840F6ACF29FC3C310093F9BE /* ProjectsController.xib in Resources */,
 				84029DAE2739578600689EEE /* Assets.xcassets in Resources */,
 				84F06C0F273D64490001EEC7 /* LoginController.xib in Resources */,
 				84F06C0B273D53FA0001EEC7 /* Main.storyboard in Resources */,
@@ -249,6 +264,7 @@
 				845854AF273D95F5000336B6 /* Watcher.swift in Sources */,
 				84029DB72739585000689EEE /* main.swift in Sources */,
 				84029DAA2739578500689EEE /* AppDelegate.swift in Sources */,
+				840F6AD029FC3C310093F9BE /* ProjectsController.swift in Sources */,
 				84F06C1B273E761D0001EEC7 /* Endpoint.swift in Sources */,
 				84F06C12273D65910001EEC7 /* DismisableController.swift in Sources */,
 			);
