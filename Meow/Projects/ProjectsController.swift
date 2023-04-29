@@ -47,7 +47,6 @@ class ProjectsState: ObservableObject {
     
     private let bag = DisposeBag()
     private let _retry = PublishSubject<Void>()
-    private let _state = PublishSubject<ProjectsState.State>()
     private let storage: Storage
     
     @Published var value: ProjectsState.State = .loading
@@ -67,16 +66,12 @@ class ProjectsState: ObservableObject {
                         return .just(.content(projects))
                     })
                     .catch { [unowned self] error -> Observable<State> in
-                        return .just(.error(error, retry: {
+                        return .just(.error(error, retry: { [unowned self] in
                             self._retry.onNext(())
                         }))
                     }
                     .startWith(.loading)
             }
-            .bind(to: self._state)
-            .disposed(by: self.bag)
-        
-        self._state
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [unowned self] state in
                 self.value = state
@@ -94,7 +89,7 @@ class ProjectsState: ObservableObject {
 }
 
 struct ContentView: View {
-    @StateObject var projectsState: ProjectsState
+    @ObservedObject var projectsState: ProjectsState
     
     var body: some View {
         VStack {
@@ -103,19 +98,24 @@ struct ContentView: View {
                     Text("Loading...")
                 
                 case .content(let projects):
-                    List {
-                        ForEach(projects) { project in
-                            Row(item: project)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    self.projectsState.clicked(project: project)
-                                }
+                    ScrollView {
+                        LazyVStack(alignment: .leading) {
+                            ForEach(projects) { project in
+                                Row(item: project)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        self.projectsState.clicked(project: project)
+                                    }
+                            }
                         }
+                        .padding()
                     }
+                    .padding(5)
                 
                 case .error(let error, let retry):
-                    VStack {
+                    VStack(spacing: 20) {
                         Text("Error: \(error.localizedDescription)")
+                            .multilineTextAlignment(.center)
                         Button("Retry") {
                             retry()
                         }
@@ -131,6 +131,7 @@ struct Row: View {
     var body: some View {
         HStack {
             Text(self.item.endpointProject.name)
+                .foregroundColor(self.item.selected ? .green : .gray)
             Spacer()
             Image(systemName: "checkmark" )
                 .foregroundColor(self.item.selected ? .green : .gray)
