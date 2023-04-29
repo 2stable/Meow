@@ -14,7 +14,7 @@ final class StatsController: DismisableController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.setUpChanges()
+        self.setUpChanges()
     }
     
     private func setUpChanges() {

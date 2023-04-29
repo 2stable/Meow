@@ -22,8 +22,9 @@ final class Coordinator {
         case loggedOut
     }
     
-    private let storage = SecureStorage()
+    private lazy var storage = SecureStorage()
     private lazy var session = Session()
+    private lazy var api = Api(storage: self.storage, session: self.session)
     
     private lazy var _state: BehaviorRelay<State> = {
         if let token = self.storage.token(), !token.isExpired() {
@@ -112,65 +113,40 @@ final class Coordinator {
         self._state.accept(.loggedOut)
     }
     
-    func overview(projects: [Endpoint.Project] = []) -> Maybe<Endpoint.Overview> {
-        var components = URLComponents(string: "https://api.revenuecat.com/v1/developers/me/overview")
-        
-        if !projects.isEmpty {
-            components?.queryItems = [.init(name: "app_uuid", value: projects.map { $0.id }.joined(separator: ","))]
-        }
-        
-        // swiftlint:disable:next force_unwrapping
-        return self.request(url: components!.url!.absoluteString)
-    }
-    
-    func transactions(projects: [Endpoint.Project] = []) -> Maybe<Endpoint.Transactions> {
-        var components = URLComponents(string: "https://api.revenuecat.com/v1/developers/me/transactions")
-        
-        if !projects.isEmpty {
-            components?.queryItems = [.init(name: "app_uuid", value: projects.map { $0.id }.joined(separator: ","))]
-        }
-        
-        // swiftlint:disable:next force_unwrapping
-        return self.request(url: components!.url!.absoluteString)
-    }
-    
-    func projects() -> Maybe<[Endpoint.Project]> {
-        return self.request(url: "https://api.revenuecat.com/internal/v1/developers/me/projects")
-    }
-    
-    private func request<T: Codable>(url: String) -> Maybe<T> {
-        guard let token = self.storage.token() else {
-            return .empty()
-        }
-    
-        // If someone at RevenueCat has a better idea or there is another API that we can use
-        // Please feel free to contact us, or open a PR
-        guard !token.isExpired(), let url = URL(string: url) else {
-            self.logout()
-            
-            return .empty()
-        }
-        
-        return self.session.json(request: .get(url: url, headers: [
-            // swiftlint:disable:next force_https
-            "X-Requested-With": "XMLHttpRequest",
-            "Cookie": "rc_auth_token=\(token.value)"
-        ]))
-        .asMaybe()
-        .catch { [weak self] error in
-            if case Session.Error.code(_, let response) = error {
-                let error = try JSONDecoder().decode(Endpoint.Error.self, from: response)
-                
-                if error.code == 7_224 {
-                    self?.logout()
-                }
-            }
-            
-            return .empty()
-        }
-    }
-    
     func dismiss() {
         self.popover.dismiss()
+    }
+    
+    func overview(projects: [Endpoint.Project] = []) -> Single<Endpoint.Overview> {
+        return self.api.overview(projects: projects)
+            .catchAndLogoutIfNeeded { [weak self] in
+                self?.logout()
+            }
+    }
+    
+    func transactions(projects: [Endpoint.Project] = []) -> Single<Endpoint.Transactions> {
+        return self.api.transactions(projects: projects)
+            .catchAndLogoutIfNeeded { [weak self] in
+                self?.logout()
+            }
+    }
+    
+    func projects() -> Single<[Endpoint.Project]> {
+        return self.api.projects()
+            .catchAndLogoutIfNeeded { [weak self] in
+                self?.logout()
+            }
+    }
+}
+
+extension PrimitiveSequence where Trait == SingleTrait {
+    func catchAndLogoutIfNeeded(_ logoutHandler: @escaping () -> Void) -> PrimitiveSequence<Trait, Element> {
+        return self.catch { error in
+            if case Api.Error.accessDenied = error {
+                logoutHandler()
+            }
+
+            return .error(error)
+        }
     }
 }
