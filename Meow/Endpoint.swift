@@ -28,7 +28,7 @@ enum Endpoint {
         let overview: Endpoint.Overview
     }
     
-    struct Project: Codable {
+    struct Project: Codable, Hashable {
         let name: String
         let id: String
     }
