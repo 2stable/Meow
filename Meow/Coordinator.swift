@@ -22,12 +22,13 @@ final class Coordinator {
         case loggedOut
     }
     
-    private lazy var storage = SecureStorage()
+    private lazy var secureStorage = SecureStorage()
+    private lazy var storage = Storage(suite: "Meow")
     private lazy var session = Session()
-    private lazy var api = Api(storage: self.storage, session: self.session)
+    private lazy var api = Api(storage: self.secureStorage, session: self.session)
     
     private lazy var _state: BehaviorRelay<State> = {
-        if let token = self.storage.token(), !token.isExpired() {
+        if let token = self.secureStorage.token(), !token.isExpired() {
             return BehaviorRelay<State>(value: .loggedIn(token))
         }
         
@@ -62,7 +63,7 @@ final class Coordinator {
     }
     
     private func preferences() {
-        self.stats(content: ProjectsController())
+        self.stats(content: ProjectsController(storage: self.storage))
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             self.popover.show()
@@ -82,7 +83,7 @@ final class Coordinator {
     
         login.token
             .subscribe(onNext: { [unowned self] token in
-                self.storage.set(token: token)
+                self.secureStorage.set(token: token)
                 
                 self._state.accept(.loggedIn(token))
             })
@@ -108,6 +109,7 @@ final class Coordinator {
     }
     
     private func logout() {
+        self.secureStorage.purge()
         self.storage.purge()
         
         self._state.accept(.loggedOut)

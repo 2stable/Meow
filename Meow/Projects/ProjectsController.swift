@@ -6,10 +6,22 @@ import SwiftUI
 final class ProjectsController: DismisableController {
     private let bag = DisposeBag()
     
+    private let storage: Storage
+    
+    init(storage: Storage) {
+        self.storage = storage
+        
+        super.init(nibName: "ProjectsController", bundle: .main)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let child = NSHostingController(rootView: ContentView())
+        let child = NSHostingController(rootView: ContentView(projectsState: .init(storage: self.storage)))
 
         self.addChild(child)
         self.view.addSubview(child.view)
@@ -18,9 +30,12 @@ final class ProjectsController: DismisableController {
 }
 
 struct Project: Identifiable {
-    let id: String
-    let name: String
+    let endpointProject: Endpoint.Project
     let selected: Bool
+    
+    var id: String {
+        return self.endpointProject.id
+    }
 }
 
 class ProjectsState: ObservableObject {
@@ -33,27 +48,29 @@ class ProjectsState: ObservableObject {
     private let bag = DisposeBag()
     private let _retry = PublishSubject<Void>()
     private let _state = PublishSubject<ProjectsState.State>()
+    private let storage: Storage
     
     @Published var value: ProjectsState.State = .loading
 
-    init() {
+    init(storage: Storage) {
+        self.storage = storage
+        
         self._retry
             .startWith(())
             .flatMapLatest { [unowned self] _ -> Observable<State> in
-                return Coordinator.shared.projects()
-                    .map { projects -> State in
+                Observable.combineLatest(Coordinator.shared.projects().asObservable(), storage.projects())
+                    .flatMapLatest({ projects, stored -> Observable<State> in
                         let projects = projects.map { project in
-                            return Project(id: project.id, name: project.name, selected: true)
+                            return Project(endpointProject: project, selected: stored.contains(where: { $0.id == project.id }))
                         }
-                        
-                        return .content(projects)
-                    }
-                    .catch { [unowned self] error -> Maybe<State> in
+                            
+                        return .just(.content(projects))
+                    })
+                    .catch { [unowned self] error -> Observable<State> in
                         return .just(.error(error, retry: {
                             self._retry.onNext(())
                         }))
                     }
-                    .asObservable()
                     .startWith(.loading)
             }
             .bind(to: self._state)
@@ -68,12 +85,16 @@ class ProjectsState: ObservableObject {
     }
     
     func clicked(project: Project) {
-        print("************* SELECTED")
+        if project.selected {
+            self.storage.remove(project: project.endpointProject)
+        } else {
+            self.storage.add(project: project.endpointProject)
+        }
     }
 }
 
 struct ContentView: View {
-    @StateObject var projectsState = ProjectsState()
+    @StateObject var projectsState: ProjectsState
     
     var body: some View {
         VStack {
@@ -84,9 +105,11 @@ struct ContentView: View {
                 case .content(let projects):
                     List {
                         ForEach(projects) { project in
-                            Row(item: project) {
-                                self.projectsState.clicked(project: project)
-                            }
+                            Row(item: project)
+                                .contentShape(Rectangle())
+                                .onTapGesture {
+                                    self.projectsState.clicked(project: project)
+                                }
                         }
                     }
                 
@@ -104,21 +127,13 @@ struct ContentView: View {
 
 struct Row: View {
     let item: Project
-    let onTap: (() -> Void)?
 
     var body: some View {
         HStack {
-            Text(self.item.name)
+            Text(self.item.endpointProject.name)
             Spacer()
-            if self.item.selected {
-                Image("checkmark")
-                    .resizable()
-                    .frame(width: 20)
-                    .foregroundColor(Color.green)
-            }
-        }
-        .onTapGesture {
-            self.onTap?()
+            Image(systemName: "checkmark" )
+                .foregroundColor(self.item.selected ? .green : .gray)
         }
         .frame(height: 20)
     }

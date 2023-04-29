@@ -43,7 +43,7 @@ internal struct Storage {
         self.defaults.removeObject(forKey: key)
     }
     
-    private func purge() {
+    func purge() {
         defer {
             self.defaults.synchronize()
         }
