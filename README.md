@@ -14,6 +14,12 @@
   <a href="https://github.com/2stable/meow/releases/latest/download/Meow.zip"><strong>Download</strong></a>
 </p>
 
+## How to Release:
+
+```
+FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=password FASTLANE_USER=username fastlane
+```
+
 ## Credits
 
 Big thanks to:
