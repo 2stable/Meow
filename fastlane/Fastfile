@@ -38,7 +38,7 @@ lane :release do
   sh("git commit -am 'Release #{version}'")
 
   add_git_tag(tag: version, force: true)
-  push_to_git_remote
+  push_to_git_remote(force: true)
 
   zip(
     path: ".build/Meow.app",
