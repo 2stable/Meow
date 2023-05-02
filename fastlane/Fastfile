@@ -15,16 +15,22 @@ lane :release do
     scheme: "Meow",
     clean: true,
     output_directory: ".build",
-    output_name: "Meow.app"
+    output_name: "Meow.app",
+    export_options: {
+      provisioningProfiles: {
+        "com.2stable.meow.release" => "com.2stable.meow.release"
+      }
+    },
+    codesigning_identity: "Developer ID Application: UNSTABLE, SL (GU5DN6BL3Y)",
+    export_method: "developer-id"
   )
-
-  sh("codesign --verbose --force --sign \"Developer ID Application: UNSTABLE, SL (GU5DN6BL3Y)\" --timestamp --options runtime ../.build/Meow.app")
 
   notarize(
     package: ".build/Meow.app",
     bundle_id: "com.2stable.meow.release",
-    use_notarytool: false,
-    verbose: true
+    use_notarytool: true,
+    verbose: true,
+    asc_provider: "GU5DN6BL3Y"
   )
 
   changelog = changelog_from_git_commits(
