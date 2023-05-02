@@ -16,14 +16,12 @@ lane :release do
     clean: true,
     output_directory: ".build",
     output_name: "Meow.app",
-    export_options: {
-      provisioningProfiles: {
-        "com.2stable.meow.release" => "com.2stable.meow.release"
-      }
-    },
-    codesigning_identity: "Developer ID Application: UNSTABLE, SL (GU5DN6BL3Y)",
-    export_method: "developer-id"
+    export_method: "developer-id",
+    skip_codesigning: true,
+    export_team_id: "GU5DN6BL3Y"
   )
+
+  sh("codesign --verbose --force --sign \"Developer ID Application: UNSTABLE, SL (GU5DN6BL3Y)\" --timestamp --options runtime ../.build/Meow.app")
 
   notarize(
     package: ".build/Meow.app",
